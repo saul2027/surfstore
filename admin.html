@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Panel · Surf Digital Store</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap">
+<style>
+:root{--bg:#061421;--bg2:#0B2030;--card:#10283A;--teal:#19D3C5;--cyan:#38E8DE;--white:#F8FAFC;--gray:#94A3B8;--ok:#22C55E;--err:#EF4444;--line:rgba(148,163,184,.15);--font:'Plus Jakarta Sans',Inter,system-ui,sans-serif}
+*{box-sizing:border-box;margin:0}body{font-family:var(--font);background:var(--bg);color:var(--white);display:flex;min-height:100vh;font-size:.93rem}
+aside{width:250px;background:var(--bg2);border-right:1px solid var(--line);padding:20px 14px;display:flex;flex-direction:column;gap:4px;position:sticky;top:0;height:100vh;transition:.3s;z-index:30}
+aside.col{width:74px}aside.col .t{display:none}.logo{font-weight:800;letter-spacing:.05em;padding:6px 10px 18px;display:flex;gap:10px;align-items:center}.logo i{flex:none;width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,var(--teal),var(--cyan));display:grid;place-items:center;font-style:normal;color:#04202a}
+aside button.nv{display:flex;gap:12px;align-items:center;background:none;border:0;color:var(--gray);padding:11px 12px;border-radius:12px;font:600 .9rem var(--font);cursor:pointer;text-align:left;transition:.2s}
+aside button.nv:hover{background:rgba(255,255,255,.05);color:var(--white)}aside button.nv.on{background:rgba(25,211,197,.13);color:var(--cyan)}.sp{flex:1}
+main{flex:1;min-width:0;padding:22px 28px}.top{display:flex;align-items:center;gap:14px;margin-bottom:22px}.top h1{font-size:1.5rem;flex:1}
+.ghost{background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--white);border-radius:10px;padding:8px 13px;cursor:pointer;font:600 .85rem var(--font)}
+.btn{background:linear-gradient(135deg,var(--teal),var(--cyan));color:#04202a;border:0;border-radius:12px;padding:10px 18px;font:700 .88rem var(--font);cursor:pointer;box-shadow:0 6px 20px rgba(25,211,197,.3)}
+.btn.sm,.ghost.sm{padding:6px 11px;font-size:.78rem;box-shadow:none}.danger{color:var(--err)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;margin-bottom:22px}
+.card{background:linear-gradient(160deg,var(--card),var(--bg2));border:1px solid var(--line);border-radius:18px;padding:20px}
+.stat small{color:var(--gray)}.stat b{display:block;font-size:1.8rem;margin-top:4px}
+.bars{display:flex;align-items:flex-end;gap:12px;height:140px;margin-top:14px}.bars div{flex:1;background:linear-gradient(var(--cyan),var(--teal));border-radius:8px 8px 0 0;min-height:4px;opacity:.85}
+.tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+input,select,textarea{background:var(--bg);border:1px solid var(--line);color:var(--white);border-radius:10px;padding:10px 12px;font:inherit;width:100%}input:focus,select:focus{outline:2px solid var(--teal)}
+.tools input,.tools select{width:auto;flex:1;min-width:150px}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:16px}table{width:100%;border-collapse:collapse;min-width:640px}
+th{font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:var(--gray);text-align:left;padding:13px 16px;background:rgba(255,255,255,.03)}td{padding:13px 16px;border-top:1px solid var(--line)}
+.tag{padding:3px 11px;border-radius:99px;font-size:.75rem;font-weight:700;background:rgba(148,163,184,.15)}.tag.ok{background:rgba(34,197,94,.15);color:var(--ok)}.tag.warn{background:rgba(25,211,197,.15);color:var(--cyan)}.tag.err{background:rgba(239,68,68,.15);color:var(--err)}
+.empty{text-align:center;color:var(--gray);padding:40px}.note{background:rgba(25,211,197,.08);border:1px solid rgba(25,211,197,.3);border-radius:12px;padding:12px 16px;margin-bottom:18px;color:#bff7f2;font-size:.85rem}
+.form{display:grid;gap:14px;max-width:560px}.form label{display:grid;gap:6px;color:var(--gray);font-size:.82rem;font-weight:600}.row{display:flex;align-items:center;gap:10px}.row input{width:auto}
+.ov{position:fixed;inset:0;background:rgba(2,8,14,.75);backdrop-filter:blur(6px);display:none;place-items:center;z-index:50;padding:16px}.ov.on{display:grid}
+.modal{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:26px;width:min(480px,100%);max-height:90vh;overflow:auto}.modal h3{margin-bottom:16px}.modal .form{max-width:none}.acts{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
+#toast{position:fixed;bottom:22px;right:22px;background:var(--card);border:1px solid var(--teal);padding:13px 18px;border-radius:12px;z-index:60;display:none;max-width:340px}
+.mb{display:none}@media(max-width:860px){aside{position:fixed;left:-260px}aside.open{left:0}.mb{display:inline-block}main{padding:16px}}
+</style></head><body>
+<aside id="side"><div class="logo"><i>S</i><span class="t">SURF ADMIN</span></div><div id="nav"></div><div class="sp"></div>
+<button class="nv" id="out"><span>⎋</span><span class="t">Cerrar sesión</span></button></aside>
+<main><div class="top"><button class="ghost mb" id="mb">☰</button><button class="ghost" id="col">⇔</button><h1 id="ttl"></h1><span class="tag warn">Vista previa</span></div>
+<div class="note">Vista previa del panel: los datos viven solo en esta página y se pierden al recargar. El guardado real, el login y el cifrado requieren el backend (Fase 3).</div>
+<div id="view"></div></main>
+<div class="ov" id="ov"><div class="modal" id="md"></div></div><div id="toast"></div>
+<script>
+const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const S={products:[],accounts:[],orders:[]};let id=1,cur='dashboard';
+const V=[['dashboard','▦','Dashboard'],['productos','◈','Productos'],['inventario','🔑','Inventario de cuentas'],['pedidos','🧾','Pedidos'],['pagos','💳','Pagos'],['clientes','👥','Clientes'],['estadisticas','📈','Estadísticas'],['config','⚙','Configuración']];
+$('#nav').innerHTML=V.map(v=>`<button class="nv" data-v="${v[0]}"><span>${v[1]}</span><span class="t">${v[2]}</span></button>`).join('');
+function toast(m){const t=$('#toast');t.textContent=m;t.style.display='block';clearTimeout(t.h);t.h=setTimeout(()=>t.style.display='none',3500)}
+const pend=()=>toast('Pendiente de integración con el backend.');
+function modal(title,fields,vals,save){$('#md').innerHTML=`<h3>${title}</h3><div class="form">${fields.map(f=>`<label>${f.l}${f.t==='select'?`<select name="${f.k}">${f.o.map(o=>`<option ${o==vals[f.k]?'selected':''}>${o}</option>`).join('')}</select>`:f.t==='check'?`<input type="checkbox" name="${f.k}" ${vals[f.k]?'checked':''}>`:`<input name="${f.k}" type="${f.t||'text'}" value="${f.t==='password'?'':esc(vals[f.k]??'')}">`}</label>`).join('')}</div><div class="acts"><button class="ghost" id="x">Cancelar</button><button class="btn" id="ok">Guardar</button></div>`;$('#ov').classList.add('on');
+$('#x').onclick=()=>$('#ov').classList.remove('on');$('#ok').onclick=()=>{const o={};$('#md').querySelectorAll('[name]').forEach(e=>o[e.name]=e.type==='checkbox'?e.checked:e.value.trim());if(save(o)!==false)$('#ov').classList.remove('on')}}
+const PF=[{k:'name',l:'Nombre'},{k:'duration',l:'Duración (ej. 12 meses)'},{k:'price',l:'Precio (USDT)',t:'number'},{k:'description',l:'Descripción'},{k:'features',l:'Características (separadas por coma)'},{k:'status',l:'Estado',t:'select',o:['Activo','Inactivo']},{k:'featured',l:'Destacado',t:'check'}];
+const AF=[{k:'product',l:'Producto',t:'select',o:S.products.map(p=>p.name)},{k:'email',l:'Correo',t:'email'},{k:'password',l:'Contraseña',t:'password'},{k:'status',l:'Estado',t:'select',o:['Disponible','Reservada','Entregada','Deshabilitada']}];
+const tbl=(h,rows,emp)=>`<div class="tw"><table><tr>${h.map(x=>`<th>${x}</th>`).join('')}</tr>${rows||`<tr><td colspan="${h.length}" class="empty">${emp}</td></tr>`}</table></div>`;
+const tg=s=>`<span class="tag ${{Activo:'ok',Disponible:'ok',Entregada:'warn',Reservada:'warn',Inactivo:'err',Deshabilitada:'err'}[s]||''}">${esc(s)}</span>`;
+const R={
+dashboard(){const a=S.accounts,o=S.orders,n=s=>a.filter(x=>x.status===s).length;const st=[['Ventas totales',o.length],['Ingresos del día','0.00 USDT'],['Ingresos del mes','0.00 USDT'],['Pedidos pendientes',o.filter(x=>x.status==='Pendiente').length],['Pedidos completados',o.filter(x=>x.status==='Entregado').length],['Cuentas disponibles',n('Disponible')],['Cuentas entregadas',n('Entregada')],['Productos activos',S.products.filter(p=>p.status==='Activo').length]];
+return`<div class="stats">${st.map(s=>`<div class="card stat"><small>${s[0]}</small><b>${s[1]}</b></div>`).join('')}</div><div class="card"><b>Actividad de ventas (7 días)</b><div class="bars">${[0,0,0,0,0,0,0].map(()=>'<div></div>').join('')}</div><p class="empty">Sin ventas registradas todavía.</p></div>`},
+productos(){return`<div class="tools"><button class="btn" id="add">+ Crear producto</button></div>`+tbl(['Producto','Duración','Precio','Estado','Acciones'],S.products.map(p=>`<tr><td>${esc(p.name)}${p.featured?' ★':''}</td><td>${esc(p.duration)}</td><td>${esc(p.price)} USDT</td><td>${tg(p.status)}</td><td><button class="ghost sm" data-e="${p.id}">Editar</button> <button class="ghost sm danger" data-d="${p.id}">Eliminar</button></td></tr>`).join(''),'Aún no hay productos. Crea el primero.')},
+inventario(){return`<div class="tools"><button class="btn" id="add">+ Añadir cuenta</button><button class="ghost" id="csv">Importar CSV</button><input type="file" id="f" accept=".csv" hidden><input id="q" placeholder="Buscar correo…"><select id="fp"><option value="">Todos los productos</option>${S.products.map(p=>`<option>${esc(p.name)}</option>`).join('')}</select><select id="fs"><option value="">Todos los estados</option><option>Disponible</option><option>Reservada</option><option>Entregada</option><option>Deshabilitada</option></select></div><div id="tb"></div>`},
+pedidos(){return tbl(['Pedido','Cliente','Producto','Importe','Método','Estado','Fecha'],S.orders.map(o=>`<tr><td>#${o.id}</td><td>${esc(o.client)}</td><td>${esc(o.product)}</td><td>${esc(o.amount)}</td><td>Binance Pay</td><td>${tg(o.status)}</td><td>${esc(o.date)}</td></tr>`).join(''),'Sin pedidos todavía.')},
+pagos(){return`<div class="card form"><label class="row"><input type="checkbox" id="bp"> Activar Binance Pay (cobros reales deshabilitados)</label><label>Merchant ID<input id="mid"></label><label>API Key<input id="ak" type="password" autocomplete="off"></label><label>Secret<input id="sk" type="password" autocomplete="off"></label><label class="row"><input type="checkbox" checked> Modo pruebas</label><div><button class="btn" id="sv">Guardar</button> <button class="ghost" id="tc">Probar conexión</button></div><small style="color:var(--gray)">Los secretos se guardarán solo en el servidor y nunca se devolverán al navegador.</small></div>`},
+clientes(){const m={};S.orders.forEach(o=>m[o.client]=(m[o.client]||0)+1);return tbl(['Cliente','Pedidos'],Object.entries(m).map(([c,n])=>`<tr><td>${esc(c)}</td><td>${n}</td></tr>`).join(''),'Sin clientes todavía.')},
+estadisticas(){return`<div class="card"><p class="empty">Las estadísticas se generarán con datos reales de pedidos y pagos cuando exista el backend.</p></div>`},
+config(){return`<div class="card form"><label>Nombre de la tienda<input value="Surf Digital Store"></label><label>Correo de soporte<input type="email"></label><label>WhatsApp<input></label><label>Redes sociales<input></label><label>Políticas comerciales<textarea rows="4"></textarea></label><div><button class="btn" id="sv">Guardar</button></div></div>`}};
+function drawInv(){const q=($('#q').value||'').toLowerCase(),p=$('#fp').value,s=$('#fs').value;const rows=S.accounts.filter(a=>(!q||a.email.toLowerCase().includes(q))&&(!p||a.product===p)&&(!s||a.status===s));
+$('#tb').innerHTML=tbl(['ID','Producto','Correo','Contraseña','Estado','Registro','Entrega','Acciones'],rows.map(a=>`<tr><td>${a.id}</td><td>${esc(a.product)}</td><td>${esc(a.email)}</td><td>••••••••</td><td>${tg(a.status)}</td><td>${a.date}</td><td>${a.delivered||'—'}</td><td><button class="ghost sm" data-x="${a.id}">Deshabilitar</button></td></tr>`).join(''),'Sin cuentas en el inventario.');
+$('#tb').querySelectorAll('[data-x]').forEach(b=>b.onclick=()=>{S.accounts.find(a=>a.id==b.dataset.x).status='Deshabilitada';drawInv()});
+['q','fp','fs'].forEach(i=>$('#'+i).oninput=drawInv)}
+function go(v){cur=v;$('#ttl').textContent=V.find(x=>x[0]===v)[2];document.querySelectorAll('.nv[data-v]').forEach(b=>b.classList.toggle('on',b.dataset.v===v));$('#view').innerHTML=R[v]();$('#side').classList.remove('open');const a=$('#add');
+if(v==='productos'){a.onclick=()=>modal('Crear producto',PF,{status:'Activo'},o=>{if(!o.name||!o.price){toast('Nombre y precio son obligatorios.');return false}S.products.push({id:id++,...o});go(v)});
+document.querySelectorAll('[data-e]').forEach(b=>b.onclick=()=>{const p=S.products.find(x=>x.id==b.dataset.e);modal('Editar producto',PF,p,o=>{Object.assign(p,o);go(v)})});document.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{S.products=S.products.filter(x=>x.id!=b.dataset.d);go(v)})}
+if(v==='inventario'){drawInv();a.onclick=()=>{if(!S.products.length){toast('Primero crea un producto.');return}modal('Añadir cuenta',[{...AF[0],o:S.products.map(p=>p.name)},...AF.slice(1)],{status:'Disponible'},o=>{if(!o.email||!o.password){toast('Correo y contraseña son obligatorios.');return false}S.accounts.push({id:id++,product:o.product,email:o.email,status:o.status,date:new Date().toLocaleDateString()});drawInv()})};
+$('#csv').onclick=()=>$('#f').click();$('#f').onchange=e=>{const r=new FileReader();r.onload=()=>{if(!S.products.length){toast('Primero crea un producto.');return}let n=0;r.result.split(/\r?\n/).slice(1).forEach(l=>{const[c]=l.split(',');if(c&&c.includes('@')){S.accounts.push({id:id++,product:S.products[0].name,email:c.trim(),status:'Disponible',date:new Date().toLocaleDateString()});n++}});toast(n+' cuentas importadas (contraseñas no guardadas en vista previa).');drawInv()};r.readAsText(e.target.files[0])}}
+if(v==='pagos'||v==='config'){$('#sv').onclick=pend;const t=$('#tc');if(t)t.onclick=pend}}
+document.querySelectorAll('.nv[data-v]').forEach(b=>b.onclick=()=>go(b.dataset.v));
+$('#out').onclick=()=>location.href='login.html';$('#col').onclick=()=>$('#side').classList.toggle('col');$('#mb').onclick=()=>$('#side').classList.toggle('open');
+$('#ov').onclick=e=>{if(e.target.id==='ov')$('#ov').classList.remove('on')};go('dashboard');
+</script></body></html>

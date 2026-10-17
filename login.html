@@ -1,0 +1,9 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Acceso · Surf Digital Store</title>
+<style>:root{--bg:#061421;--card:#10283A;--teal:#19D3C5;--cyan:#38E8DE;--gray:#94A3B8}*{box-sizing:border-box;margin:0}body{min-height:100vh;display:grid;place-items:center;padding:20px;font-family:'Plus Jakarta Sans',Inter,system-ui,sans-serif;color:#F8FAFC;background:radial-gradient(50% 50% at 70% 0,rgba(25,211,197,.2),transparent),var(--bg)}
+.c{width:min(400px,100%);background:var(--card);border:1px solid rgba(148,163,184,.15);border-radius:22px;padding:32px;box-shadow:0 30px 80px rgba(0,0,0,.45)}h1{font-size:1.4rem;margin-bottom:6px}p{color:var(--gray);font-size:.88rem;margin-bottom:22px}
+label{display:grid;gap:6px;font-size:.82rem;color:var(--gray);font-weight:600;margin-bottom:14px}input{background:var(--bg);border:1px solid rgba(148,163,184,.2);color:#fff;border-radius:10px;padding:12px;font:inherit}input:focus{outline:2px solid var(--teal)}
+button{width:100%;border:0;border-radius:12px;padding:13px;font:700 .95rem inherit;background:linear-gradient(135deg,var(--teal),var(--cyan));color:#04202a;cursor:pointer}#m{margin-top:14px;font-size:.82rem;color:var(--cyan);min-height:1.2em}</style></head>
+<body><div class="c"><h1>Acceso de administrador</h1><p>Surf Digital Store</p>
+<label>Correo<input id="e" type="email" autocomplete="username"></label><label>Contraseña<input id="p" type="password" autocomplete="current-password"></label>
+<button id="b">Ingresar</button><div id="m"></div><p style="margin:14px 0 0"><a href="admin.html" style="color:var(--cyan)">Ver vista previa del panel →</a></p></div>
+<script>document.getElementById('b').onclick=()=>{document.getElementById('m').textContent='El inicio de sesión real requiere el backend (Fase 3). Por ahora usa la vista previa del panel.'}</script></body></html>
